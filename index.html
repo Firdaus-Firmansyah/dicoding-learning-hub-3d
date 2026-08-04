@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dicoding Learning Hub | Coding Camp 2026 3.0</title>
+  
+  <!-- SEO & Meta Tags -->
+  <meta name="description" content="Portal Pembelajaran Terpadu Front-End Web, JavaScript Modern, dan Web Dasar - Coding Camp 2026 3.0 powered by DBS Foundation & Dicoding.">
+  <meta name="theme-color" content="#6366f1">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Claymorphism 3D Stylesheet -->
+  <link rel="stylesheet" href="css/portal-style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP NAVIGATION BAR
+       ======================================================================== -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="brand-icon">🌐</div>
+        <div class="brand-text">
+          <h1>Dicoding Learning Hub 3D</h1>
+          <p>Coding Camp 2026 3.0 powered by DBS Foundation</p>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Cari modul, topik, event, storage, kata kunci..." autocomplete="off">
+      </div>
+
+      <!-- Nav Actions & Progress Tracker -->
+      <div class="nav-actions">
+        <div class="progress-widget" title="Progres Belajar Tersimpan">
+          <span class="progress-label">Progres:</span>
+          <div class="progress-bar-container">
+            <div id="progressBarFill" class="progress-bar-fill"></div>
+          </div>
+          <span id="progressPercent" class="progress-percent">0%</span>
+        </div>
+
+        <button id="mobileMenuBtn" class="mobile-sidebar-toggle" aria-label="Buka Menu">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       FILTER PILLS
+       ======================================================================== -->
+  <nav class="filter-pills-bar" id="filterPillsContainer">
+    <button class="filter-pill active" data-filter="all">🌟 Semua Kelas (74 Modul)</button>
+    <button class="filter-pill" data-filter="fe-pemula">🎨 Front-End Pemula (26)</button>
+    <button class="filter-pill" data-filter="js-dasar">⚡ Dasar JavaScript (45)</button>
+    <button class="filter-pill" data-filter="web-dasar">🌐 Dasar Pemrograman Web (3)</button>
+  </nav>
+
+  <!-- Mobile Backdrop -->
+  <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
+  <!-- ========================================================================
+       MAIN APP CONTAINER (SIDEBAR + WORKSPACE)
+       ======================================================================== -->
+  <main class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebarNav" class="sidebar">
+      <div class="sidebar-header">
+        <h2>📚 Silabus Modul</h2>
+        <span id="sidebarCountBadge" class="module-count-badge">0 Modul</span>
+      </div>
+
+      <div id="moduleSectionsContainer">
+        <!-- Akan di-render secara dinamis oleh portal-app.js -->
+      </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <section class="main-workspace">
+      
+      <!-- ACTIVE MODULE HEADER CARD -->
+      <div class="module-header-card">
+        <div class="header-left">
+          <div id="headerIcon" class="header-icon-box">💎</div>
+          <div class="header-details">
+            <div id="headerBreadcrumbs" class="header-breadcrumbs">
+              <span>Front-End Pemula</span> • <span>Proyek Akhir</span>
+            </div>
+            <div class="header-title-row">
+              <h2 id="headerTitle">Expense Tracker App</h2>
+              <span id="headerBadge" class="module-badge badge-submission">Submission Bintang 5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="resetStorageBtn" class="btn-clay-action" title="Bersihkan Local/Session Storage modul ini">
+            🧹 Reset Storage
+          </button>
+          <button id="reloadBtn" class="btn-clay-action" title="Muat Ulang Halaman Modul">
+            🔄 Reload
+          </button>
+          <a id="openTabBtn" href="#" target="_blank" class="btn-clay-action primary" title="Buka di Tab Baru">
+            ↗️ Buka Tab Baru
+          </a>
+        </div>
+      </div>
+
+      <!-- WORKSPACE TABS -->
+      <div class="workspace-tabs">
+        <button id="tabBtnPreview" class="tab-button active" data-tab="preview">
+          🖥️ Live Interactive Preview
+        </button>
+        <button id="tabBtnTheory" class="tab-button" data-tab="theory">
+          📖 Rangkuman Materi & Panduan
+        </button>
+        <button id="tabBtnCode" class="tab-button" data-tab="code">
+          💻 Source Code Viewer
+        </button>
+        <button id="tabBtnCriteria" class="tab-button" data-tab="criteria">
+          🏆 Detail & Evaluasi Submission
+        </button>
+      </div>
+
+      <!-- TAB PANEL 1: LIVE INTERACTIVE PREVIEW -->
+      <div id="tabPreviewPanel" class="tab-panel active">
+        <div class="preview-card">
+          <div class="preview-toolbar">
+            <div class="device-toggles">
+              <button class="device-btn active" data-device="desktop">🖥️ Desktop</button>
+              <button class="device-btn" data-device="tablet">📱 Tablet (768px)</button>
+              <button class="device-btn" data-device="mobile">📱 Mobile (375px)</button>
+            </div>
+            <div id="previewAddress" class="preview-address-bar">
+              ./Belajar Membuat Front-End Web untuk Pemula/Submission - Membangun Expense Tracker App/index.html
+            </div>
+          </div>
+          <div class="preview-viewport-wrapper">
+            <iframe id="previewIframe" class="preview-iframe" src="" title="Modul Preview"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANEL 2: TEORI & MATERI -->
+      <div id="tabTheoryPanel" class="tab-panel">
+        <div class="theory-card">
+          <div id="theoryContent" class="theory-content">
+            <!-- Konten Teori Dinamis -->
+          </div>
+          <div class="key-points-box">
+            <h4>💡 Poin Kunci Pembelajaran:</h4>
+            <ul id="keyPointsList" class="key-points-list">
+              <!-- Key points dinamis -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANEL 3: SOURCE CODE VIEWER -->
+      <div id="tabCodePanel" class="tab-panel">
+        <div class="code-card">
+          <div class="code-header">
+            <div id="codeFileTabs" class="code-file-tabs">
+              <!-- Tab Berkas Dinamis -->
+            </div>
+            <button id="copyCodeBtn" class="btn-copy-code">
+              📋 Salin Kode
+            </button>
+          </div>
+          <div class="code-content-wrapper">
+            <pre><code id="codeContent" class="code-pre">// Memuat kode sumber...</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANEL 4: DETAIL & KRITERIA SUBMISSION -->
+      <div id="tabCriteriaPanel" class="tab-panel">
+        <div class="criteria-card">
+          <h3>🎯 Kriteria Penilaian & Standar Kelulusan</h3>
+          <ul id="criteriaList" class="criteria-list">
+            <!-- Kriteria dinamis -->
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/modules-data.js"></script>
+  <script src="js/portal-app.js"></script>
+</body>
+</html>

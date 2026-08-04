@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance & Expense Tracker App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="tracker-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="brand-icon">💳</div>
+        <div>
+          <h1>Personal Finance & Expense Tracker</h1>
+          <p class="tracker-header__greeting">Halo, <span id="userGreeting">Firdaus (firdaus_dev)</span>! Kelola keuanganmu dengan bijak.</p>
+        </div>
+      </div>
+      <div class="badge-status">
+        <span class="pulse-dot"></span>
+        Web Storage Connected
+      </div>
+    </div>
+  </header>
+
+  <main class="tracker-main">
+    
+    <!-- ==================== DASHBOARD SUMMARY ==================== -->
+    <section class="dashboard-grid" aria-label="Ringkasan Keuangan">
+      <!-- Total Saldo -->
+      <div class="card summary-card balance-card">
+        <div class="summary-icon">💰</div>
+        <div class="summary-info">
+          <h3>Total Saldo</h3>
+          <p class="summary-amount" id="totalBalance" data-testid="totalBalance">Rp0</p>
+        </div>
+      </div>
+
+      <!-- Total Pemasukan -->
+      <div class="card summary-card income-card">
+        <div class="summary-icon">📈</div>
+        <div class="summary-info">
+          <h3>Total Pemasukan</h3>
+          <p class="summary-amount text-success" id="totalIncome" data-testid="totalIncome">Rp0</p>
+        </div>
+      </div>
+
+      <!-- Total Pengeluaran -->
+      <div class="card summary-card expense-card">
+        <div class="summary-icon">📉</div>
+        <div class="summary-info">
+          <h3>Total Pengeluaran</h3>
+          <p class="summary-amount text-danger" id="totalExpense" data-testid="totalExpense">Rp0</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="content-layout">
+      
+      <!-- ==================== FORM TAMBAH / EDIT TRANSAKSI ==================== -->
+      <aside class="sidebar-section">
+        <div class="card form-card">
+          <div class="card-header">
+            <h2 id="formHeading">➕ Tambah Transaksi Baru</h2>
+            <span class="badge-mode" id="formModeBadge">Mode: Tambah</span>
+          </div>
+
+          <form id="transactionForm" data-testid="transactionForm">
+            <!-- Hidden input untuk tracking ID saat mode Edit -->
+            <input type="hidden" id="editTransactionId" value="">
+
+            <div class="form-group">
+              <label for="transactionTitle">Judul Transaksi <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="transactionTitle" 
+                name="transactionTitle" 
+                data-testid="transactionTitle" 
+                placeholder="Contoh: Gaji Bulanan / Beli Kopi" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="transactionAmount">Nominal (Rp) <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="transactionAmount" 
+                name="transactionAmount" 
+                data-testid="transactionAmount" 
+                placeholder="Minimal 1 rupiah" 
+                min="1" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="transactionDate">Tanggal <span class="required">*</span></label>
+              <input 
+                type="date" 
+                id="transactionDate" 
+                name="transactionDate" 
+                data-testid="transactionDate" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label>Tipe Transaksi <span class="required">*</span></label>
+              <div class="type-selector">
+                <label class="type-option income-option">
+                  <input type="radio" name="transactionType" id="typeIncome" value="income" checked>
+                  <span class="type-label">📈 Pemasukan</span>
+                </label>
+                <label class="type-option expense-option">
+                  <input type="radio" name="transactionType" id="typeExpense" value="expense">
+                  <span class="type-label">📉 Pengeluaran</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="transactionSubmit" class="btn-primary" data-testid="transactionSubmit">
+                💾 Simpan Transaksi
+              </button>
+              <button type="button" id="cancelEditButton" class="btn-secondary" style="display: none;">
+                ✖ Batal Edit
+              </button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <!-- ==================== SEARCH & LIST TRANSAKSI ==================== -->
+      <section class="main-content">
+        
+        <!-- Search Bar -->
+        <div class="card search-card">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="searchTransactionTitle" 
+              data-testid="searchTransactionTitle" 
+              placeholder="Cari transaksi berdasarkan judul..." 
+              autocomplete="off"
+            >
+            <button type="button" id="clearSearchButton" class="btn-clear-search" title="Bersihkan Pencarian" style="display: none;">✖</button>
+          </div>
+          <p id="searchFeedback" class="search-feedback" style="display: none;"></p>
+        </div>
+
+        <!-- Lists Container: Income & Expense -->
+        <div class="transaction-lists-grid">
+          
+          <!-- Daftar Pemasukan -->
+          <div class="card list-card income-list-card">
+            <div class="list-header">
+              <h2>📈 Daftar Pemasukan</h2>
+              <span class="item-count" id="incomeCount">0 Transaksi</span>
+            </div>
+            <div id="incomeList" data-testid="incomeList" class="transaction-container">
+              <!-- Item kartu transaksi pemasukan akan dirender di sini via JavaScript -->
+            </div>
+          </div>
+
+          <!-- Daftar Pengeluaran -->
+          <div class="card list-card expense-list-card">
+            <div class="list-header">
+              <h2>📉 Daftar Pengeluaran</h2>
+              <span class="item-count" id="expenseCount">0 Transaksi</span>
+            </div>
+            <div id="expenseList" data-testid="expenseList" class="transaction-container">
+              <!-- Item kartu transaksi pengeluaran akan dirender di sini via JavaScript -->
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>

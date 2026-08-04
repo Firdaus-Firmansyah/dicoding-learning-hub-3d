@@ -1,0 +1,837 @@
+/* ==============================================================================
+   PERSONAL FINANCE & EXPENSE TRACKER APP - CLAYMORPHISM 3D THEME
+   Dicoding Front-End Web Pemula Submission (100% Bintang 5 Advanced Compliant)
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap');
+
+:root {
+  /* Clay Primary Palette */
+  --clay-bg: #edf2f8;
+  --clay-card-bg: #f3f6fc;
+  
+  --primary: #6366f1;
+  --primary-clay: #818cf8;
+  --primary-dark: #4338ca;
+  
+  /* Clay Mint (Income) */
+  --mint-bg: #d1fae5;
+  --mint-clay: #a7f3d0;
+  --mint-text: #065f46;
+  --mint-shadow: 8px 8px 20px rgba(52, 211, 153, 0.35), -8px -8px 20px rgba(255, 255, 255, 0.9), inset 3px 3px 6px rgba(255, 255, 255, 0.8), inset -3px -3px 6px rgba(5, 150, 105, 0.15);
+  
+  /* Clay Coral / Berry (Expense) */
+  --coral-bg: #ffe4e6;
+  --coral-clay: #fecdd3;
+  --coral-text: #9f1239;
+  --coral-shadow: 8px 8px 20px rgba(251, 113, 133, 0.35), -8px -8px 20px rgba(255, 255, 255, 0.9), inset 3px 3px 6px rgba(255, 255, 255, 0.8), inset -3px -3px 6px rgba(225, 29, 72, 0.15);
+
+  /* Clay Violet (Balance) */
+  --violet-bg: #ede9fe;
+  --violet-clay: #ddd6fe;
+  --violet-text: #5b21b6;
+  --violet-shadow: 8px 8px 20px rgba(167, 139, 250, 0.35), -8px -8px 20px rgba(255, 255, 255, 0.9), inset 3px 3px 6px rgba(255, 255, 255, 0.8), inset -3px -3px 6px rgba(109, 40, 217, 0.15);
+
+  /* General Clay Shadows */
+  --clay-shadow-card: 14px 14px 28px rgba(166, 180, 200, 0.45), -12px -12px 26px rgba(255, 255, 255, 0.95), inset 3px 3px 6px rgba(255, 255, 255, 0.9), inset -3px -3px 6px rgba(166, 180, 200, 0.15);
+  --clay-shadow-sm: 6px 6px 14px rgba(166, 180, 200, 0.4), -6px -6px 14px rgba(255, 255, 255, 0.9);
+  --clay-shadow-inset: inset 4px 4px 8px rgba(166, 180, 200, 0.4), inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+  --clay-shadow-btn: 6px 6px 16px rgba(99, 102, 241, 0.35), -4px -4px 12px rgba(255, 255, 255, 0.9), inset 2px 2px 4px rgba(255, 255, 255, 0.6), inset -2px -2px 4px rgba(0, 0, 0, 0.12);
+  
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: radial-gradient(circle at 10% 10%, #e0e7ff 0%, transparent 40%),
+              radial-gradient(circle at 90% 90%, #fce7f3 0%, transparent 40%),
+              var(--clay-bg);
+  background-attachment: fixed;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==================== HEADER (CLAY PILL NAV) ==================== */
+.tracker-header {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(166, 180, 200, 0.2);
+  padding: 20px 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-icon {
+  font-size: 2.2rem;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--violet-bg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--violet-shadow);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  animation: floatIcon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(4deg); }
+}
+
+.brand h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1e1b4b;
+}
+
+.tracker-header__greeting {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.tracker-header__greeting span {
+  color: #4f46e5;
+  font-weight: 800;
+  background: #e0e7ff;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.badge-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--mint-bg);
+  color: var(--mint-text);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: var(--mint-shadow);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* ==================== MAIN CONTAINER ==================== */
+.tracker-main {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 24px 70px;
+  flex-grow: 1;
+}
+
+/* ==================== CLAY BASE CARD ==================== */
+.card {
+  background: var(--clay-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-card);
+  border: 2.5px solid rgba(255, 255, 255, 0.85);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==================== CLAY DASHBOARD SUMMARY CARDS ==================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 28px;
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Total Saldo Clay Violet */
+.balance-card {
+  background: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%);
+  box-shadow: var(--violet-shadow);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Total Pemasukan Clay Mint */
+.income-card {
+  background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+  box-shadow: var(--mint-shadow);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Total Pengeluaran Clay Coral/Berry */
+.expense-card {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%);
+  box-shadow: var(--coral-shadow);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+.summary-icon {
+  font-size: 2.2rem;
+  width: 66px;
+  height: 66px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: var(--clay-shadow-sm);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.summary-info h3 {
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.balance-card .summary-info h3 { color: var(--violet-text); }
+.income-card .summary-info h3 { color: var(--mint-text); }
+.expense-card .summary-info h3 { color: var(--coral-text); }
+
+.summary-amount {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.text-success { color: #047857; }
+.text-danger { color: #be123c; }
+
+/* ==================== CONTENT LAYOUT ==================== */
+.content-layout {
+  display: grid;
+  grid-template-columns: 390px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ==================== CLAY FORM SECTION ==================== */
+.form-card {
+  padding: 30px;
+  position: sticky;
+  top: 110px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(166, 180, 200, 0.2);
+}
+
+.card-header h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1e1b4b;
+}
+
+.badge-mode {
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-weight: 800;
+  background: #e0e7ff;
+  color: #4338ca;
+  box-shadow: var(--clay-shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.badge-mode.editing {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #334155;
+}
+
+.required {
+  color: #e11d48;
+}
+
+/* Clay Inset Inputs */
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-main);
+  background: #f1f5f9;
+  box-shadow: var(--clay-shadow-inset);
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus {
+  background: #ffffff;
+  outline: none;
+  border-color: var(--primary-clay);
+  box-shadow: inset 2px 2px 4px rgba(166, 180, 200, 0.2), 0 0 0 4px rgba(99, 102, 241, 0.18);
+}
+
+/* Clay 3D Type Selector (Radio Pill Buttons) */
+.type-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.type-option {
+  position: relative;
+  cursor: pointer;
+}
+
+.type-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.type-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  background: #e2e8f0;
+  box-shadow: var(--clay-shadow-sm);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.type-label:hover {
+  transform: translateY(-2px);
+}
+
+/* Active Clay Mint Radio */
+.income-option input[type="radio"]:checked + .type-label {
+  background: var(--mint-bg);
+  color: var(--mint-text);
+  box-shadow: var(--mint-shadow);
+  border-color: #ffffff;
+  transform: scale(1.03);
+}
+
+/* Active Clay Coral Radio */
+.expense-option input[type="radio"]:checked + .type-label {
+  background: var(--coral-bg);
+  color: var(--coral-text);
+  box-shadow: var(--coral-shadow);
+  border-color: #ffffff;
+  transform: scale(1.03);
+}
+
+/* ==================== TACTILE CLAY BUTTONS (MEMBAL & EMPUK) ==================== */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-btn);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 8px 8px 22px rgba(99, 102, 241, 0.45), -4px -4px 14px rgba(255, 255, 255, 0.9);
+}
+
+/* Membal / Squishy tactile feedback */
+.btn-primary:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.25), inset -3px -3px 6px rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 14px;
+  background: #e2e8f0;
+  color: #475569;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-md);
+  font-size: 0.94rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: #cbd5e1;
+  color: #1e293b;
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================== CLAY SEARCH BAR ==================== */
+.search-card {
+  padding: 20px 26px;
+  margin-bottom: 28px;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+#searchTransactionTitle {
+  padding-left: 54px;
+  padding-right: 48px;
+  border-radius: 9999px;
+  font-size: 0.98rem;
+  background: #f8fafc;
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 16px;
+  background: #e2e8f0;
+  color: #64748b;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 0.15s ease;
+}
+
+.btn-clear-search:hover {
+  background: #fecdd3;
+  color: #be123c;
+  transform: scale(1.1);
+}
+
+.btn-clear-search:active {
+  transform: scale(0.95);
+}
+
+.search-feedback {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  color: #4f46e5;
+  font-weight: 700;
+  padding-left: 10px;
+}
+
+/* ==================== LISTS SECTION ==================== */
+.transaction-lists-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.list-card {
+  padding: 28px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 18px;
+  border-bottom: 2px solid rgba(166, 180, 200, 0.2);
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.income-list-card .list-header h2 { color: #047857; }
+.expense-list-card .list-header h2 { color: #be123c; }
+
+.item-count {
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--text-muted);
+  box-shadow: var(--clay-shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.transaction-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-grow: 1;
+}
+
+/* ==================== CLAY 3D TRANSACTION ITEM (COMPLIANT TESTID) ==================== */
+div[data-testid="transactionItem"] {
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+div[data-testid="transactionItem"]:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Clay Mint Item */
+.item-income {
+  background: linear-gradient(135deg, #e6fcf0 0%, #f0fdf4 100%) !important;
+  box-shadow: var(--mint-shadow) !important;
+}
+
+/* Clay Coral/Berry Item */
+.item-expense {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%) !important;
+  box-shadow: var(--coral-shadow) !important;
+}
+
+h3[data-testid="transactionItemTitle"] {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+p[data-testid="transactionItemAmount"] {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.item-income p[data-testid="transactionItemAmount"] { color: #047857; }
+.item-expense p[data-testid="transactionItemAmount"] { color: #be123c; }
+
+p[data-testid="transactionItemDate"] {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+p[data-testid="transactionItemType"] {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.item-income p[data-testid="transactionItemType"] {
+  background: #a7f3d0;
+  color: #065f46;
+}
+
+.item-expense p[data-testid="transactionItemType"] {
+  background: #fecdd3;
+  color: #9f1239;
+}
+
+/* Tactile Mini Clay Buttons */
+div[data-testid="transactionItem"] > div:last-child {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1.5px solid rgba(166, 180, 200, 0.25);
+}
+
+button[data-testid="transactionItemEditButton"] {
+  padding: 8px 14px;
+  background: #e0e7ff;
+  color: #4338ca;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button[data-testid="transactionItemEditButton"]:hover {
+  background: #c7d2fe;
+  transform: translateY(-2px);
+}
+
+button[data-testid="transactionItemEditButton"]:active {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+button[data-testid="transactionItemEditTypeButton"] {
+  padding: 8px 14px;
+  background: #ffffff;
+  color: #334155;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button[data-testid="transactionItemEditTypeButton"]:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+button[data-testid="transactionItemEditTypeButton"]:active {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+button[data-testid="transactionItemDeleteButton"] {
+  padding: 8px 14px;
+  background: #fee2e2;
+  color: #be123c;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--clay-shadow-sm);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+button[data-testid="transactionItemDeleteButton"]:hover {
+  background: #fecdd3;
+  transform: translateY(-2px);
+}
+
+button[data-testid="transactionItemDeleteButton"]:active {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  margin: auto 0;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  box-shadow: var(--clay-shadow-inset);
+  border: 2px dashed rgba(166, 180, 200, 0.35);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: bounce 2s infinite alternate;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+.empty-state p {
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+/* ==================== CLAY TOAST NOTIFICATIONS ==================== */
+.toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #1e1b4b;
+  color: #ffffff;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.2);
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-left: 6px solid #10b981;
+  pointer-events: auto;
+  animation: toastSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.toast.toast-warning { border-left-color: #f59e0b; }
+.toast.toast-danger { border-left-color: #f43f5e; }
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-20px) scale(0.9); }
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1024px) {
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card {
+    position: static;
+  }
+
+  .transaction-lists-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .tracker-header {
+    padding: 16px;
+  }
+
+  .brand h1 {
+    font-size: 1.2rem;
+  }
+
+  .tracker-main {
+    padding: 20px 16px 50px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}

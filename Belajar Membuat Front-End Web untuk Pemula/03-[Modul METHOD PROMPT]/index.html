@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03 - Method Prompt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clay-bg: #edf2f8;
+      --clay-card: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      --clay-card-shadow: 12px 12px 24px rgba(166, 180, 200, 0.45),
+                          -10px -10px 22px rgba(255, 255, 255, 0.95),
+                          inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+                          inset -3px -3px 6px rgba(166, 180, 200, 0.15);
+      
+      --clay-btn-shadow: 6px 6px 14px rgba(6, 182, 212, 0.35),
+                         -4px -4px 10px rgba(255, 255, 255, 0.9),
+                         inset 2px 2px 4px rgba(255, 255, 255, 0.6);
+      
+      --clay-inset-shadow: inset 4px 4px 8px rgba(166, 180, 200, 0.45),
+                           inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+      
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 10% 10%, #cffafe 0%, transparent 40%),
+                  radial-gradient(circle at 90% 90%, #ede9fe 0%, transparent 40%),
+                  var(--clay-bg);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #cffafe;
+      color: #0e7490;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      box-shadow: 4px 4px 10px rgba(166, 180, 200, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: var(--clay-card);
+      border: 2.5px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--clay-card-shadow);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 1rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    button {
+      font-family: inherit;
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      padding: 0.85rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      box-shadow: var(--clay-btn-shadow);
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 8px 8px 18px rgba(6, 182, 212, 0.45);
+    }
+
+    button:active {
+      transform: translateY(2px) scale(0.97);
+      box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button.btn-amber {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 6px 6px 14px rgba(245, 158, 11, 0.35), -4px -4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    button.btn-indigo {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      box-shadow: 6px 6px 14px rgba(99, 102, 241, 0.35), -4px -4px 10px rgba(255, 255, 255, 0.9);
+    }
+
+    pre {
+      background: #e2e8f0;
+      padding: 1.2rem;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--clay-inset-shadow);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      color: #334155;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      line-height: 1.5;
+    }
+
+    .result-box {
+      margin-top: 1.25rem;
+      background: #e2e8f0;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--clay-inset-shadow);
+      padding: 1.2rem;
+      font-family: 'Fira Code', monospace;
+      color: #0e7490;
+      font-size: 0.92rem;
+      font-weight: 600;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">💬 Modul 03</span>
+      <h1>Method Prompt pada BOM</h1>
+      <p style="color: var(--text-muted); font-weight: 500;">Menerima Input Teks & Angka Langsung dari Pengguna</p>
+    </header>
+
+    <div class="card">
+      <h2>📌 1. Penggunaan `prompt()`</h2>
+      <p>
+        Method <code>prompt()</code> menampilkan kotak dialog yang meminta pengguna untuk memasukkan teks.
+        Nilai yang dikembalikan selalu bertipe <strong>string</strong> (atau <code>null</code> jika dibatalkan).
+      </p>
+      <pre><code>// 1. Input teks biasa
+const pesan = prompt('Masukkan pesan sesukamu:');
+
+// 2. Input angka dengan konversi Number()
+const angka = Number(prompt('Masukkan sebuah angka:'));
+
+// 3. Input dengan nilai default (placeholder)
+const nama = prompt('Silakan masukkan nama Anda!', 'John Doe');</code></pre>
+      <div class="btn-group">
+        <button id="btnPromptText">✏️ Uji Prompt Teks</button>
+        <button id="btnPromptNumber" class="btn-amber">🔢 Uji Prompt Angka</button>
+        <button id="btnPromptDefault" class="btn-indigo">🏷️ Uji Prompt Default Value</button>
+      </div>
+
+      <div class="result-box" id="promptResult">Hasil input dari prompt akan muncul di sini...</div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

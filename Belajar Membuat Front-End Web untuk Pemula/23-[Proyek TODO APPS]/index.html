@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo Apps - DOM Manipulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<header>
+  <div class="header-container">
+    <span class="badge">📝 Proyek Todo Apps</span>
+    <h1>Interactive Todo List</h1>
+    <p>Aplikasi Pengelola Tugas Harian dengan Manipulasi DOM JavaScript</p>
+  </div>
+</header>
+
+<div class="wrapper">
+  <!-- Container 1: Form Tambah Todo -->
+  <div class="container bg-white shadow" id="add-todo">
+    <h2 class="container-header text-center">➕ Tambah Yang Harus Dilakukan</h2>
+    <form class="form" action="#" id="form">
+      <div class="form-group form-title">
+        <label for="title">📝 Masukkan hal yang akan dilakukan</label>
+        <input type="text" id="title" name="title" placeholder="Contoh: Belajar JavaScript DOM..." required>
+      </div>
+      <div class="form-group form-title">
+        <label for="date">📅 Masukkan tanggal target selesai</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <input type="submit" value="✨ Tambah Todo" name="Submit" class="btn-submit">
+    </form>
+  </div>
+
+  <!-- Container 2: Rak Yang Harus Dilakukan (Uncompleted) -->
+  <div class="container">
+    <h2 class="container-header">⏳ Yang Harus Dilakukan</h2>
+    <div class="list-item" id="todos">
+    </div>
+  </div>
+
+  <!-- Container 3: Rak Yang Sudah Dilakukan (Completed) -->
+  <div class="container">
+    <h2 class="container-header">✅ Yang Sudah Dilakukan</h2>
+    <div class="list-item" id="completed-todos">
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js" type="text/javascript"></script>
+</body>
+</html>

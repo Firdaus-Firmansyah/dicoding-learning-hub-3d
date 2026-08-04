@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>17 - Event onInput, onFocus, dan onBlur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clay-bg: #edf2f8;
+      --clay-card: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      --clay-card-shadow: 12px 12px 24px rgba(166, 180, 200, 0.45),
+                          -10px -10px 22px rgba(255, 255, 255, 0.95),
+                          inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+                          inset -3px -3px 6px rgba(166, 180, 200, 0.15);
+      
+      --clay-inset-shadow: inset 4px 4px 8px rgba(166, 180, 200, 0.45),
+                           inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+      
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 10% 10%, #ede9fe 0%, transparent 40%),
+                  radial-gradient(circle at 90% 90%, #dbeafe 0%, transparent 40%),
+                  var(--clay-bg);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 680px;
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ede9fe;
+      color: #6d28d9;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      box-shadow: 4px 4px 10px rgba(166, 180, 200, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.9);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: var(--clay-card);
+      border: 2.5px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--clay-card-shadow);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .form-element {
+      margin-bottom: 1.4rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: #1e1b4b;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      background: #f1f5f9;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--clay-inset-shadow);
+      color: #1e293b;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      background: #ffffff;
+      border-color: #8b5cf6;
+      box-shadow: inset 2px 2px 4px rgba(139, 92, 246, 0.2), 0 0 0 3px rgba(139, 92, 246, 0.25);
+    }
+
+    #notifikasiSisaKarakter {
+      font-size: 0.88rem;
+      margin-top: 0.5rem;
+      display: block;
+      visibility: hidden; /* Sembunyikan default, muncul saat focus */
+      transition: all 0.2s ease;
+      font-weight: 700;
+      color: #6d28d9;
+    }
+
+    .badge-info {
+      background: #f5f3ff;
+      border-left: 5px solid #8b5cf6;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1.5rem;
+      font-size: 0.92rem;
+      color: #4c1d95;
+      box-shadow: var(--clay-inset-shadow);
+    }
+
+    ul {
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin-bottom: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">🎯 Modul 17</span>
+      <h1>Event onInput, onFocus, dan onBlur</h1>
+      <p style="color: var(--text-muted); font-weight: 500;">Menghitung Sisa Karakter Real-time & Interaktivitas Form</p>
+    </header>
+
+    <div class="card">
+      <h2 style="font-size: 1.25rem; font-weight: 800; color: #1e1b4b; margin-bottom: 1.25rem;">📋 Form Input dengan Live Counter</h2>
+
+      <form id="formDataDiri" autocomplete="off">
+        <div class="form-element" id="fieldName">
+          <label for="inputNama">👤 Nama Panggilan (Maks. 15 Karakter):</label>
+          <input
+            id="inputNama"
+            type="text"
+            name="nama"
+            placeholder="Klik di sini dan ketik nama..."
+            maxlength="15"
+          >
+          <label id="notifikasiSisaKarakter">
+            Sisa karakter: <span id="sisaKarakter">15</span>
+          </label>
+        </div>
+      </form>
+
+      <div class="badge-info">
+        <strong>💡 Tiga Event Utama yang Bekerja:</strong>
+        <ul>
+          <li><code>focus</code>: Munculkan notifikasi sisa karakter saat kursor aktif di input.</li>
+          <li><code>input</code>: Hitung sisa karakter secara real-time saat pengguna mengetik/menghapus.</li>
+          <li><code>blur</code>: Sembunyikan kembali notifikasi saat kursor keluar dari input.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
