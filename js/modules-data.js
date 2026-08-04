@@ -106,10 +106,10 @@ const MODULES_DATA = [
     icon: '⚓',
     badge: 'Lab Web Dasar',
     type: 'html',
-    filePath: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/a123-webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/index.html',
+    filePath: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/index.html',
     sourceFiles: [
-      { name: 'index.html', path: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/a123-webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/index.html', language: 'html' },
-      { name: 'styles/style.css', path: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/a123-webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/styles/style.css', language: 'css' }
+      { name: 'index.html', path: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/index.html', language: 'html' },
+      { name: 'styles/style.css', path: './Belajar Dasar Pemrograman Web/webdasar-labs-203-menerapkan-elemen-anchor-pada-halaman-profil/halaman-profil-bandung/styles/style.css', language: 'css' }
     ],
     description: `
       <h3>⚓ Lab 203: Menerapkan Elemen Anchor</h3>
@@ -1117,10 +1117,15 @@ const MODULES_DATA = [
       { name: '01-writing-comments/index.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/01-writing-comments/index.js', language: 'javascript' },
       { name: '02-code-style/index.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/02-code-style/index.js', language: 'javascript' },
       { name: '03-writing-test/index.test.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/03-writing-test/index.test.js', language: 'javascript' },
-      { name: 'optional-04-oop/index.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-04-oop/index.js', language: 'javascript' },
-      { name: 'optional-05-recursive/index.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-05-recursive/index.js', language: 'javascript' },
+      { name: 'optional-04-oop/main.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-04-oop/main.js', language: 'javascript' },
+      { name: 'optional-04-oop/Item.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-04-oop/Item.js', language: 'javascript' },
+      { name: 'optional-04-oop/Inventory.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-04-oop/Inventory.js', language: 'javascript' },
+      { name: 'optional-05-recursive/main.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-05-recursive/main.js', language: 'javascript' },
+      { name: 'optional-05-recursive/factorial.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-05-recursive/factorial.js', language: 'javascript' },
+      { name: 'optional-05-recursive/fibonacci.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-05-recursive/fibonacci.js', language: 'javascript' },
       { name: 'optional-06-full-coverage-testing/index.test.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-06-full-coverage-testing/index.test.js', language: 'javascript' },
-      { name: 'optional-07-real-world-scenario/index.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-07-real-world-scenario/index.js', language: 'javascript' }
+      { name: 'optional-07-real-world-scenario/main.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-07-real-world-scenario/main.js', language: 'javascript' },
+      { name: 'optional-07-real-world-scenario/orders.js', path: './Belajar Dasar Pemrograman JavaScript/final-assessment/optional-07-real-world-scenario/orders.js', language: 'javascript' }
     ],
     description: `
       <h3>⭐ Submission Evaluasi Pembelajaran Akhir JavaScript</h3>
@@ -1555,6 +1560,31 @@ const MODULES_DATA = [
     keyPoints: [
       'Clipboard event: copy, cut, paste',
       'Mencegah kecurangan input pada konfirmasi captcha/password'
+    ]
+  },
+  {
+    id: 'fe-19-form-validasi',
+    classId: 'fe-pemula',
+    category: '04. Form & Input Event',
+    title: '19 - Form Validasi Lengkap & Captcha',
+    shortTitle: '19 Form Validasi & Captcha',
+    icon: '🛡️',
+    badge: 'Modul Front-End',
+    type: 'html',
+    filePath: './Belajar Membuat Front-End Web untuk Pemula/19-[Modul FORM VALIDASI LENGKAP & CAPTCHA]/index.html',
+    sourceFiles: [
+      { name: 'index.html', path: './Belajar Membuat Front-End Web untuk Pemula/19-[Modul FORM VALIDASI LENGKAP & CAPTCHA]/index.html', language: 'html' },
+      { name: 'main.js', path: './Belajar Membuat Front-End Web untuk Pemula/19-[Modul FORM VALIDASI LENGKAP & CAPTCHA]/main.js', language: 'javascript' }
+    ],
+    description: `
+      <h3>🛡️ Form Validasi Lengkap & Captcha</h3>
+      <p>Proyek rangkuman komprehensif penanganan Form dan Input Event pada Front-End Web: mengintegrasikan <code>DOMContentLoaded</code>, <code>input</code> (live character counter), <code>focus</code> & <code>blur</code> (dynamic visual feedback), <code>copy</code> & <code>paste</code> (clipboard security), <code>change</code> (captcha matching verification), serta <code>submit</code> (preventDefault handling).</p>
+    `,
+    keyPoints: [
+      'Character counter real-time dengan batas maksimal 15 karakter',
+      'Event copy & paste listener untuk deteksi aksi clipboard',
+      'Validasi teks Captcha ("PRNU") via event change untuk membuka tombol Submit',
+      'Mencegah default submission reload via event.preventDefault()'
     ]
   },
   {
