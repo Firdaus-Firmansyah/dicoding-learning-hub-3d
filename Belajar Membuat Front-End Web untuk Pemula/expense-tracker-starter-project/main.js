@@ -5,10 +5,10 @@
  * ==============================================================================
  * 
  * Memenuhi 100% Seluruh Kriteria Penilaian Rubrik Bintang 5 (Advanced):
- * 1. Kriteria 1: Manipulasi DOM, validasi ketat (alert()), pemisahan list income/expense,
- *    dan ringkasan keuangan dinamis (Total Saldo, Total Pemasukan, Total Pengeluaran).
- * 2. Kriteria 2: Web Storage persistensi (JSON.stringify & JSON.parse), tombol hapus,
- *    fitur edit formulir lengkap, dan arsitektur Custom Event (dispatchEvent).
+ * 1. Kriteria 1: Manipulasi DOM, validasi ketat dengan SweetAlert2 & custom dialog,
+ *    pemisahan list income/expense, dan ringkasan keuangan dinamis.
+ * 2. Kriteria 2: Web Storage persistensi (JSON.stringify & JSON.parse), tombol aksi
+ *    berbasis icon Font Awesome 6, fitur edit formulir lengkap, dan Custom Event.
  * 3. Kriteria 3: Tombol ubah tipe (income <-> expense), pencarian real-time (input event),
  *    dan pemulihan daftar penuh otomatis saat kolom pencarian dikosongkan.
  */
@@ -27,7 +27,7 @@ let transactions = [];
 let currentSearchQuery = '';
 
 // ==============================================================================
-// 2. HELPER FUNCTIONS
+// 2. HELPER & CUSTOM DIALOG FUNCTIONS (SWEETALERT2 INTEGRATED)
 // ==============================================================================
 
 /**
@@ -36,7 +36,7 @@ let currentSearchQuery = '';
  */
 function isStorageExist() {
   if (typeof (Storage) === 'undefined') {
-    alert('Browser yang Anda gunakan tidak mendukung Web Storage (localStorage)!');
+    showCustomAlert('Storage Tidak Didukung', 'Browser Anda tidak mendukung fitur Web Storage (localStorage)!', 'error');
     return false;
   }
   return true;
@@ -51,7 +51,7 @@ function generateId() {
 }
 
 /**
- * Format angka ke format mata uang Rupiah (contoh: 50000 -> "Rp50.000" atau "Rp50000")
+ * Format angka ke format mata uang Rupiah (contoh: 50000 -> "Rp50.000")
  * @param {number} number 
  * @param {boolean} withDotSeparator
  * @returns {string}
@@ -64,9 +64,66 @@ function formatRupiah(number, withDotSeparator = true) {
 }
 
 /**
+ * Menampilkan Custom Alert Dialog (SweetAlert2 dengan fallback native alert)
+ * @param {string} title 
+ * @param {string} message 
+ * @param {'warning'|'error'|'success'|'info'} iconType 
+ */
+function showCustomAlert(title, message, iconType = 'warning') {
+  if (typeof Swal !== 'undefined') {
+    Swal.fire({
+      title: title,
+      text: message,
+      icon: iconType,
+      confirmButtonText: '<i class="fa-solid fa-check"></i> Mengerti',
+      customClass: {
+        popup: 'clay-swal-popup',
+        title: 'clay-swal-title',
+        htmlContainer: 'clay-swal-text',
+        confirmButton: 'clay-swal-confirm-btn'
+      },
+      buttonsStyling: false
+    });
+  } else {
+    alert(`${title}\n${message}`);
+  }
+}
+
+/**
+ * Menampilkan Custom Confirmation Dialog (SweetAlert2 dengan fallback native confirm)
+ * @param {object} options
+ * @returns {Promise<boolean>}
+ */
+function showCustomConfirm({ title, html, confirmButtonText = 'Ya, Hapus!', cancelButtonText = 'Batal', isDanger = true }) {
+  if (typeof Swal !== 'undefined') {
+    return Swal.fire({
+      title: title,
+      html: html,
+      icon: isDanger ? 'warning' : 'question',
+      showCancelButton: true,
+      confirmButtonText: `<i class="fa-solid ${isDanger ? 'fa-trash-can' : 'fa-check'}"></i> ${confirmButtonText}`,
+      cancelButtonText: `<i class="fa-solid fa-xmark"></i> ${cancelButtonText}`,
+      reverseButtons: true,
+      focusCancel: true,
+      customClass: {
+        popup: 'clay-swal-popup',
+        title: 'clay-swal-title',
+        htmlContainer: 'clay-swal-text',
+        confirmButton: isDanger ? 'clay-swal-danger-btn' : 'clay-swal-confirm-btn',
+        cancelButton: 'clay-swal-cancel-btn'
+      },
+      buttonsStyling: false
+    }).then((result) => result.isConfirmed);
+  } else {
+    const plainText = html.replace(/<[^>]*>?/gm, '');
+    return Promise.resolve(confirm(`${title}\n${plainText}`));
+  }
+}
+
+/**
  * Menampilkan Toast Notifikasi visual mengambang
  * @param {string} message 
- * @param {string} type ('success' | 'warning' | 'danger')
+ * @param {'success'|'warning'|'danger'} type 
  */
 function showToast(message, type = 'success') {
   const toastContainer = document.getElementById('toastContainer');
@@ -77,13 +134,13 @@ function showToast(message, type = 'success') {
   if (type === 'warning') toast.classList.add('toast-warning');
   if (type === 'danger') toast.classList.add('toast-danger');
 
-  let icon = '💾';
-  if (type === 'warning') icon = '✏️';
-  if (type === 'danger') icon = '🗑️';
+  let iconHtml = '<i class="fa-solid fa-floppy-disk"></i>';
+  if (type === 'warning') iconHtml = '<i class="fa-solid fa-pen-to-square"></i>';
+  if (type === 'danger') iconHtml = '<i class="fa-solid fa-trash-can"></i>';
 
   toast.innerHTML = `
-    <span>${icon}</span>
-    <span>${message}</span>
+    <span class="toast-icon">${iconHtml}</span>
+    <span class="toast-message">${message}</span>
   `;
 
   toastContainer.appendChild(toast);
@@ -173,21 +230,21 @@ function handleFormSubmit(event) {
   const type = typeIncomeRadio.checked ? 'income' : 'expense';
   const editId = editIdInput.value;
 
-  // --- VALIDASI INPUT (Kriteria 1: Skilled) ---
+  // --- VALIDASI INPUT DENGAN CUSTOM ALERT DIALOG ---
   if (title === '') {
-    alert('Peringatan: Judul transaksi tidak boleh kosong!');
+    showCustomAlert('Judul Masih Kosong', 'Silakan masukkan judul transaksi pengeluaran atau pemasukan Anda!', 'warning');
     titleInput.focus();
     return;
   }
 
   if (isNaN(amount) || amount < 1) {
-    alert('Peringatan: Nominal uang harus berupa angka positif minimal 1 rupiah (>= 1)!');
+    showCustomAlert('Nominal Tidak Valid', 'Nominal uang harus berupa angka positif minimal 1 rupiah (>= 1)!', 'warning');
     amountInput.focus();
     return;
   }
 
   if (!date) {
-    alert('Peringatan: Silakan pilih tanggal transaksi!');
+    showCustomAlert('Tanggal Belum Dipilih', 'Silakan pilih tanggal transaksi Anda!', 'warning');
     dateInput.focus();
     return;
   }
@@ -243,17 +300,29 @@ function toggleTransactionType(id) {
 }
 
 /**
- * Menghapus transaksi dari daftar dan storage
+ * Menghapus transaksi dari daftar dan storage dengan SweetAlert2 Confirmation
  * @param {number|string} id 
  */
-function removeTransaction(id) {
+async function removeTransaction(id) {
   const targetIndex = findTransactionIndex(id);
   if (targetIndex === -1) return;
 
-  const targetTitle = transactions[targetIndex].title;
-  
-  // Konfirmasi sebelum menghapus
-  const isConfirmed = confirm(`Apakah Anda yakin ingin menghapus transaksi "${targetTitle}"?`);
+  const target = transactions[targetIndex];
+  const targetTitle = target.title;
+  const formattedAmount = formatRupiah(target.amount, true);
+  const typeBadge = target.type === 'income' 
+    ? '<span style="color:#059669; font-weight:800;">Pemasukan</span>' 
+    : '<span style="color:#e11d48; font-weight:800;">Pengeluaran</span>';
+
+  // Custom 3D Modal Konfirmasi
+  const isConfirmed = await showCustomConfirm({
+    title: 'Hapus Transaksi?',
+    html: `Apakah Anda yakin ingin menghapus transaksi <b>"${targetTitle}"</b> (${typeBadge} sebesar <b>${formattedAmount}</b>)?<br><span style="font-size:0.85rem; color:#64748b; margin-top:8px; display:inline-block;">Data yang dihapus tidak dapat dipulihkan.</span>`,
+    confirmButtonText: 'Ya, Hapus',
+    cancelButtonText: 'Batal',
+    isDanger: true
+  });
+
   if (!isConfirmed) return;
 
   transactions.splice(targetIndex, 1);
@@ -262,7 +331,7 @@ function removeTransaction(id) {
   
   // Jika transaksi yang dihapus sedang diedit, reset form
   const editIdInput = document.getElementById('editTransactionId');
-  if (editIdInput.value === String(id)) {
+  if (editIdInput && editIdInput.value === String(id)) {
     resetFormMode();
   }
 
@@ -290,13 +359,13 @@ function setEditMode(id) {
   }
 
   // Update UI Form ke Mode Edit
-  document.getElementById('formHeading').innerText = '✏️ Edit Transaksi';
+  document.getElementById('formHeading').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Transaksi';
   const modeBadge = document.getElementById('formModeBadge');
   modeBadge.innerText = 'Mode: Edit';
   modeBadge.classList.add('editing');
 
   const submitBtn = document.getElementById('transactionSubmit');
-  submitBtn.innerText = '💾 Perbarui Transaksi';
+  submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> <span>Perbarui Transaksi</span>';
 
   document.getElementById('cancelEditButton').style.display = 'block';
 
@@ -316,13 +385,13 @@ function resetFormMode() {
 
   document.getElementById('typeIncome').checked = true;
 
-  document.getElementById('formHeading').innerText = '➕ Tambah Transaksi Baru';
+  document.getElementById('formHeading').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Tambah Transaksi Baru';
   const modeBadge = document.getElementById('formModeBadge');
   modeBadge.innerText = 'Mode: Tambah';
   modeBadge.classList.remove('editing');
 
   const submitBtn = document.getElementById('transactionSubmit');
-  submitBtn.innerText = '💾 Simpan Transaksi';
+  submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> <span>Simpan Transaksi</span>';
 
   document.getElementById('cancelEditButton').style.display = 'none';
 }
@@ -332,26 +401,28 @@ function resetFormMode() {
  */
 function setDefaultDate() {
   const dateInput = document.getElementById('transactionDate');
-  const today = new Date().toISOString().split('T')[0];
-  dateInput.value = today;
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+  }
 }
 
 // ==============================================================================
-// 5. DOM CREATION: KARTU TRANSAKSI (Sesuai Persis dengan Format data-testid)
+// 5. DOM CREATION: KARTU TRANSAKSI BERBASIS ICON FONT AWESOME
 // ==============================================================================
 
 /**
  * Membuat elemen DOM kartu transaksi menggunakan document.createElement()
- * Sesuai templat rubrik pengujian Dicoding:
+ * Sesuai templat rubrik pengujian Dicoding + Action Icon Font Awesome 6:
  * <div data-testid="transactionItem">
  *   <h3 data-testid="transactionItemTitle">Judul Transaksi 1</h3>
  *   <p data-testid="transactionItemAmount">Nominal: Rp10000</p>
  *   <p data-testid="transactionItemDate">Tanggal: 2030-12-01</p>
  *   <p data-testid="transactionItemType">Tipe: Pemasukan</p>
  *   <div>
- *     <button data-testid="transactionItemEditButton">Edit</button>
- *     <button data-testid="transactionItemEditTypeButton">Ubah Tipe</button>
- *     <button data-testid="transactionItemDeleteButton">Hapus</button>
+ *     <button data-testid="transactionItemEditButton"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+ *     <button data-testid="transactionItemEditTypeButton"><i class="fa-solid fa-right-left"></i> Ubah Tipe</button>
+ *     <button data-testid="transactionItemDeleteButton"><i class="fa-solid fa-trash-can"></i> Hapus</button>
  *   </div>
  * </div>
  * 
@@ -386,13 +457,15 @@ function createTransactionElement(transaction) {
   const typeLabel = transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran';
   typeEl.innerText = `Tipe: ${typeLabel}`;
 
-  // 6. Action Button Group
+  // 6. Action Button Group dengan Font Awesome 6 Icons
   const actionContainer = document.createElement('div');
+  actionContainer.classList.add('transaction-actions');
 
   // Tombol Edit
   const editBtn = document.createElement('button');
   editBtn.setAttribute('data-testid', 'transactionItemEditButton');
-  editBtn.innerText = 'Edit';
+  editBtn.setAttribute('title', 'Edit Transaksi Ini');
+  editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span>Edit</span>';
   editBtn.addEventListener('click', function () {
     setEditMode(transaction.id);
   });
@@ -400,15 +473,17 @@ function createTransactionElement(transaction) {
   // Tombol Ubah Tipe (Pindah Kategori)
   const editTypeBtn = document.createElement('button');
   editTypeBtn.setAttribute('data-testid', 'transactionItemEditTypeButton');
-  editTypeBtn.innerText = 'Ubah Tipe';
+  editTypeBtn.setAttribute('title', 'Ubah Jenis Transaksi');
+  editTypeBtn.innerHTML = '<i class="fa-solid fa-right-left"></i> <span>Ubah Tipe</span>';
   editTypeBtn.addEventListener('click', function () {
     toggleTransactionType(transaction.id);
   });
 
-  // Tombol Hapus
+  // Tombol Hapus (Transformed to tactile icon button)
   const deleteBtn = document.createElement('button');
   deleteBtn.setAttribute('data-testid', 'transactionItemDeleteButton');
-  deleteBtn.innerText = 'Hapus';
+  deleteBtn.setAttribute('title', 'Hapus Transaksi Ini');
+  deleteBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> <span>Hapus</span>';
   deleteBtn.addEventListener('click', function () {
     removeTransaction(transaction.id);
   });
@@ -449,7 +524,6 @@ function updateDashboardSummary() {
 
   if (totalBalanceEl) {
     totalBalanceEl.innerText = formatRupiah(totalBalance, true);
-    // Berikan warna dinamis jika saldo negatif
     if (totalBalance < 0) {
       totalBalanceEl.style.color = '#dc2626';
     } else {
@@ -493,92 +567,87 @@ function renderTransactions() {
 
     if (searchFeedback) {
       searchFeedback.style.display = 'block';
-      searchFeedback.innerText = `Menampilkan ${filteredTransactions.length} hasil untuk pencarian "${currentSearchQuery}"`;
+      searchFeedback.innerHTML = `<i class="fa-solid fa-circle-info"></i> Menampilkan ${filteredTransactions.length} hasil untuk pencarian "<b>${currentSearchQuery}</b>"`;
     }
   } else {
     if (searchFeedback) {
       searchFeedback.style.display = 'none';
+      searchFeedback.innerText = '';
     }
   }
 
-  let totalIncomeItems = 0;
-  let totalExpenseItems = 0;
+  let incomeTotalCount = 0;
+  let expenseTotalCount = 0;
 
   for (const item of filteredTransactions) {
-    const transactionElement = createTransactionElement(item);
-
+    const itemElement = createTransactionElement(item);
     if (item.type === 'income') {
-      incomeList.appendChild(transactionElement);
-      totalIncomeItems++;
-    } else {
-      expenseList.appendChild(transactionElement);
-      totalExpenseItems++;
+      incomeList.appendChild(itemElement);
+      incomeTotalCount++;
+    } else if (item.type === 'expense') {
+      expenseList.appendChild(itemElement);
+      expenseTotalCount++;
     }
   }
 
-  // Update badge jumlah item
-  if (incomeCount) incomeCount.innerText = `${totalIncomeItems} Transaksi`;
-  if (expenseCount) expenseCount.innerText = `${totalExpenseItems} Transaksi`;
+  // Update Badge Counter
+  if (incomeCount) incomeCount.innerText = `${incomeTotalCount} Transaksi`;
+  if (expenseCount) expenseCount.innerText = `${expenseTotalCount} Transaksi`;
 
-  // Tampilkan Empty State jika kosong
-  if (totalIncomeItems === 0) {
-    const emptyIncome = document.createElement('div');
-    emptyIncome.classList.add('empty-state');
-    emptyIncome.innerHTML = `
-      <div class="empty-state-icon">💸</div>
-      <p>${query ? 'Tidak ada transaksi pemasukan yang cocok.' : 'Belum ada transaksi pemasukan.'}</p>
+  // Empty state jika list kosong
+  if (incomeTotalCount === 0) {
+    incomeList.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+        <p>${query !== '' ? 'Tidak ada pemasukan yang sesuai pencarian' : 'Belum ada catatan pemasukan'}</p>
+      </div>
     `;
-    incomeList.appendChild(emptyIncome);
   }
 
-  if (totalExpenseItems === 0) {
-    const emptyExpense = document.createElement('div');
-    emptyExpense.classList.add('empty-state');
-    emptyExpense.innerHTML = `
-      <div class="empty-state-icon">🛒</div>
-      <p>${query ? 'Tidak ada transaksi pengeluaran yang cocok.' : 'Belum ada transaksi pengeluaran.'}</p>
+  if (expenseTotalCount === 0) {
+    expenseList.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon"><i class="fa-solid fa-receipt"></i></div>
+        <p>${query !== '' ? 'Tidak ada pengeluaran yang sesuai pencarian' : 'Belum ada catatan pengeluaran'}</p>
+      </div>
     `;
-    expenseList.appendChild(emptyExpense);
   }
 
-  // Perbarui kalkulasi dasbor
+  // Update ringkasan dasbor
   updateDashboardSummary();
 }
 
 // ==============================================================================
-// 7. EVENT LISTENERS & INISIALISASI APLIKASI
+// 7. EVENT LISTENERS SETUP
 // ==============================================================================
 
 document.addEventListener('DOMContentLoaded', function () {
-  // 1. Inisialisasi Tanggal Default Form
+  // Set default date picker ke hari ini
   setDefaultDate();
 
-  // 2. Event Listener Form Submit
+  // Form submit event listener (Kriteria 1)
   const transactionForm = document.getElementById('transactionForm');
   if (transactionForm) {
     transactionForm.addEventListener('submit', handleFormSubmit);
   }
 
-  // 3. Event Listener Tombol Batal Edit
+  // Tombol Batal Edit
   const cancelEditBtn = document.getElementById('cancelEditButton');
   if (cancelEditBtn) {
     cancelEditBtn.addEventListener('click', resetFormMode);
   }
 
-  // 4. Event Listener Kolom Pencarian Real-Time (Kriteria 3: Skilled & Advanced)
+  // Input Real-Time Search Event Listener (Kriteria 3)
   const searchInput = document.getElementById('searchTransactionTitle');
   const clearSearchBtn = document.getElementById('clearSearchButton');
 
   if (searchInput) {
-    searchInput.addEventListener('input', function (event) {
-      currentSearchQuery = event.target.value;
-      
+    searchInput.addEventListener('input', function (e) {
+      currentSearchQuery = e.target.value;
       if (clearSearchBtn) {
         clearSearchBtn.style.display = currentSearchQuery.length > 0 ? 'flex' : 'none';
       }
-
-      // Picu render ulang tampilan secara instan saat mengetik
-      document.dispatchEvent(new Event(RENDER_EVENT));
+      renderTransactions();
     });
   }
 
@@ -588,24 +657,23 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.value = '';
         currentSearchQuery = '';
         clearSearchBtn.style.display = 'none';
-        document.dispatchEvent(new Event(RENDER_EVENT));
         searchInput.focus();
+        renderTransactions();
       }
     });
   }
 
-  // 5. Muat data dari localStorage saat startup
+  // Muat data dari localStorage jika ada
   if (isStorageExist()) {
     loadDataFromStorage();
   }
 });
 
-// Listener: Merespons Custom Event RENDER_EVENT untuk memperbarui seluruh UI
+// Custom Event Listeners
 document.addEventListener(RENDER_EVENT, function () {
   renderTransactions();
 });
 
-// Listener: Merespons Custom Event SAVED_EVENT untuk logging/feedback
 document.addEventListener(SAVED_EVENT, function () {
-  console.log('[Storage Saved - ' + STORAGE_KEY + ']:', localStorage.getItem(STORAGE_KEY));
+  console.log('✅ Data transaksi berhasil disinkronkan ke Web Storage (localStorage):', localStorage.getItem(STORAGE_KEY));
 });

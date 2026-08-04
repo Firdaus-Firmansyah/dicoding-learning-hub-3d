@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Finance & Expense Tracker App</title>
+  <title>Personal Finance & Expense Tracker App | Dicoding Indonesia</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons (v6.5.2) -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer" 
+  />
+
+  <!-- SweetAlert2 Theme Stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +31,9 @@
   <header class="tracker-header">
     <div class="header-content">
       <div class="brand">
-        <div class="brand-icon">💳</div>
+        <div class="brand-icon">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
         <div>
           <h1>Personal Finance & Expense Tracker</h1>
           <p class="tracker-header__greeting">Halo, <span id="userGreeting">Firdaus (firdaus_dev)</span>! Kelola keuanganmu dengan bijak.</p>
@@ -24,7 +41,7 @@
       </div>
       <div class="badge-status">
         <span class="pulse-dot"></span>
-        Web Storage Connected
+        <i class="fa-solid fa-database"></i> Web Storage Connected
       </div>
     </div>
   </header>
@@ -35,7 +52,9 @@
     <section class="dashboard-grid" aria-label="Ringkasan Keuangan">
       <!-- Total Saldo -->
       <div class="card summary-card balance-card">
-        <div class="summary-icon">💰</div>
+        <div class="summary-icon">
+          <i class="fa-solid fa-sack-dollar"></i>
+        </div>
         <div class="summary-info">
           <h3>Total Saldo</h3>
           <p class="summary-amount" id="totalBalance" data-testid="totalBalance">Rp0</p>
@@ -44,7 +63,9 @@
 
       <!-- Total Pemasukan -->
       <div class="card summary-card income-card">
-        <div class="summary-icon">📈</div>
+        <div class="summary-icon">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
         <div class="summary-info">
           <h3>Total Pemasukan</h3>
           <p class="summary-amount text-success" id="totalIncome" data-testid="totalIncome">Rp0</p>
@@ -53,7 +74,9 @@
 
       <!-- Total Pengeluaran -->
       <div class="card summary-card expense-card">
-        <div class="summary-icon">📉</div>
+        <div class="summary-icon">
+          <i class="fa-solid fa-arrow-trend-down"></i>
+        </div>
         <div class="summary-info">
           <h3>Total Pengeluaran</h3>
           <p class="summary-amount text-danger" id="totalExpense" data-testid="totalExpense">Rp0</p>
@@ -67,7 +90,7 @@
       <aside class="sidebar-section">
         <div class="card form-card">
           <div class="card-header">
-            <h2 id="formHeading">➕ Tambah Transaksi Baru</h2>
+            <h2 id="formHeading"><i class="fa-solid fa-circle-plus"></i> Tambah Transaksi Baru</h2>
             <span class="badge-mode" id="formModeBadge">Mode: Tambah</span>
           </div>
 
@@ -77,38 +100,47 @@
 
             <div class="form-group">
               <label for="transactionTitle">Judul Transaksi <span class="required">*</span></label>
-              <input 
-                type="text" 
-                id="transactionTitle" 
-                name="transactionTitle" 
-                data-testid="transactionTitle" 
-                placeholder="Contoh: Gaji Bulanan / Beli Kopi" 
-                required
-              >
+              <div class="input-with-icon">
+                <i class="fa-solid fa-file-signature input-icon"></i>
+                <input 
+                  type="text" 
+                  id="transactionTitle" 
+                  name="transactionTitle" 
+                  data-testid="transactionTitle" 
+                  placeholder="Contoh: Gaji Bulanan / Beli Kopi" 
+                  required
+                >
+              </div>
             </div>
 
             <div class="form-group">
               <label for="transactionAmount">Nominal (Rp) <span class="required">*</span></label>
-              <input 
-                type="number" 
-                id="transactionAmount" 
-                name="transactionAmount" 
-                data-testid="transactionAmount" 
-                placeholder="Minimal 1 rupiah" 
-                min="1" 
-                required
-              >
+              <div class="input-with-icon">
+                <i class="fa-solid fa-money-bill-wave input-icon"></i>
+                <input 
+                  type="number" 
+                  id="transactionAmount" 
+                  name="transactionAmount" 
+                  data-testid="transactionAmount" 
+                  placeholder="Minimal 1 rupiah" 
+                  min="1" 
+                  required
+                >
+              </div>
             </div>
 
             <div class="form-group">
               <label for="transactionDate">Tanggal <span class="required">*</span></label>
-              <input 
-                type="date" 
-                id="transactionDate" 
-                name="transactionDate" 
-                data-testid="transactionDate" 
-                required
-              >
+              <div class="input-with-icon">
+                <i class="fa-solid fa-calendar-day input-icon"></i>
+                <input 
+                  type="date" 
+                  id="transactionDate" 
+                  name="transactionDate" 
+                  data-testid="transactionDate" 
+                  required
+                >
+              </div>
             </div>
 
             <div class="form-group">
@@ -116,21 +148,21 @@
               <div class="type-selector">
                 <label class="type-option income-option">
                   <input type="radio" name="transactionType" id="typeIncome" value="income" checked>
-                  <span class="type-label">📈 Pemasukan</span>
+                  <span class="type-label"><i class="fa-solid fa-circle-arrow-down"></i> Pemasukan</span>
                 </label>
                 <label class="type-option expense-option">
                   <input type="radio" name="transactionType" id="typeExpense" value="expense">
-                  <span class="type-label">📉 Pengeluaran</span>
+                  <span class="type-label"><i class="fa-solid fa-circle-arrow-up"></i> Pengeluaran</span>
                 </label>
               </div>
             </div>
 
             <div class="form-actions">
               <button type="submit" id="transactionSubmit" class="btn-primary" data-testid="transactionSubmit">
-                💾 Simpan Transaksi
+                <i class="fa-solid fa-floppy-disk"></i> <span>Simpan Transaksi</span>
               </button>
               <button type="button" id="cancelEditButton" class="btn-secondary" style="display: none;">
-                ✖ Batal Edit
+                <i class="fa-solid fa-xmark"></i> <span>Batal Edit</span>
               </button>
             </div>
           </form>
@@ -143,7 +175,7 @@
         <!-- Search Bar -->
         <div class="card search-card">
           <div class="search-box">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
             <input 
               type="text" 
               id="searchTransactionTitle" 
@@ -151,7 +183,9 @@
               placeholder="Cari transaksi berdasarkan judul..." 
               autocomplete="off"
             >
-            <button type="button" id="clearSearchButton" class="btn-clear-search" title="Bersihkan Pencarian" style="display: none;">✖</button>
+            <button type="button" id="clearSearchButton" class="btn-clear-search" title="Bersihkan Pencarian" style="display: none;">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </div>
           <p id="searchFeedback" class="search-feedback" style="display: none;"></p>
         </div>
@@ -162,7 +196,7 @@
           <!-- Daftar Pemasukan -->
           <div class="card list-card income-list-card">
             <div class="list-header">
-              <h2>📈 Daftar Pemasukan</h2>
+              <h2><i class="fa-solid fa-arrow-trend-up"></i> Daftar Pemasukan</h2>
               <span class="item-count" id="incomeCount">0 Transaksi</span>
             </div>
             <div id="incomeList" data-testid="incomeList" class="transaction-container">
@@ -173,7 +207,7 @@
           <!-- Daftar Pengeluaran -->
           <div class="card list-card expense-list-card">
             <div class="list-header">
-              <h2>📉 Daftar Pengeluaran</h2>
+              <h2><i class="fa-solid fa-arrow-trend-down"></i> Daftar Pengeluaran</h2>
               <span class="item-count" id="expenseCount">0 Transaksi</span>
             </div>
             <div id="expenseList" data-testid="expenseList" class="transaction-container">
@@ -191,6 +225,10 @@
   <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
+  <!-- SweetAlert2 Library Script -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Main Application Script -->
   <script src="main.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 /* ==============================================================================
    PERSONAL FINANCE & EXPENSE TRACKER APP - CLAYMORPHISM 3D THEME
    Dicoding Front-End Web Pemula Submission (100% Bintang 5 Advanced Compliant)
+   With Font Awesome 6 Icons & SweetAlert2 Custom Clay Dialogs
    ============================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap');
@@ -66,10 +67,10 @@ body {
 
 /* ==================== HEADER (CLAY PILL NAV) ==================== */
 .tracker-header {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 10px 30px rgba(166, 180, 200, 0.2);
   padding: 20px 32px;
   position: sticky;
@@ -94,22 +95,23 @@ body {
 }
 
 .brand-icon {
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   width: 58px;
   height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--violet-bg);
+  color: #6366f1;
   border-radius: var(--radius-md);
   box-shadow: var(--violet-shadow);
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.85);
   animation: floatIcon 3s ease-in-out infinite alternate;
 }
 
 @keyframes floatIcon {
   0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-4px) rotate(4deg); }
+  100% { transform: translateY(-4px) rotate(3deg); }
 }
 
 .brand h1 {
@@ -120,42 +122,38 @@ body {
 }
 
 .tracker-header__greeting {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--text-muted);
   font-weight: 500;
   margin-top: 2px;
 }
 
 .tracker-header__greeting span {
-  color: #4f46e5;
-  font-weight: 800;
-  background: #e0e7ff;
-  padding: 2px 10px;
-  border-radius: 9999px;
-  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  color: var(--primary-dark);
 }
 
 .badge-status {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--mint-bg);
-  color: var(--mint-text);
   padding: 8px 18px;
+  background: #ffffff;
   border-radius: 9999px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  box-shadow: var(--mint-shadow);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  color: #047857;
+  box-shadow: var(--clay-shadow-sm);
+  border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
 .pulse-dot {
-  width: 10px;
-  height: 10px;
-  background-color: #10b981;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  animation: pulse 1.8s infinite;
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -169,111 +167,123 @@ body {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  padding: 36px 24px 70px;
+  padding: 36px 24px 80px;
   flex-grow: 1;
 }
 
-/* ==================== CLAY BASE CARD ==================== */
-.card {
-  background: var(--clay-card-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--clay-shadow-card);
-  border: 2.5px solid rgba(255, 255, 255, 0.85);
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* ==================== CLAY DASHBOARD SUMMARY CARDS ==================== */
+/* ==================== CLAY 3D DASBOR SALDO ==================== */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
   margin-bottom: 36px;
 }
 
+.card {
+  background: var(--clay-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--clay-shadow-card);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
 .summary-card {
+  padding: 26px 28px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 26px 28px;
-  border-radius: var(--radius-lg);
-  position: relative;
+  gap: 22px;
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
 }
 
 .summary-card:hover {
   transform: translateY(-5px);
 }
 
-/* Total Saldo Clay Violet */
 .balance-card {
-  background: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%);
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border-color: rgba(221, 214, 254, 0.8);
+}
+
+.balance-card .summary-icon {
+  background: var(--violet-clay);
+  color: var(--violet-text);
   box-shadow: var(--violet-shadow);
-  border-color: rgba(255, 255, 255, 0.95);
 }
 
-/* Total Pemasukan Clay Mint */
 .income-card {
-  background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
-  box-shadow: var(--mint-shadow);
-  border-color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: rgba(167, 243, 208, 0.8);
 }
 
-/* Total Pengeluaran Clay Coral/Berry */
+.income-card .summary-icon {
+  background: var(--mint-clay);
+  color: var(--mint-text);
+  box-shadow: var(--mint-shadow);
+}
+
 .expense-card {
-  background: linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%);
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  border-color: rgba(254, 205, 211, 0.8);
+}
+
+.expense-card .summary-icon {
+  background: var(--coral-clay);
+  color: var(--coral-text);
   box-shadow: var(--coral-shadow);
-  border-color: rgba(255, 255, 255, 0.95);
 }
 
 .summary-icon {
-  font-size: 2.2rem;
-  width: 66px;
-  height: 66px;
-  border-radius: 20px;
+  font-size: 1.9rem;
+  width: 68px;
+  height: 68px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  box-shadow: var(--clay-shadow-sm);
+  flex-shrink: 0;
   border: 2px solid rgba(255, 255, 255, 0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.summary-card:hover .summary-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .summary-info h3 {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
   margin-bottom: 6px;
 }
-
-.balance-card .summary-info h3 { color: var(--violet-text); }
-.income-card .summary-info h3 { color: var(--mint-text); }
-.expense-card .summary-info h3 { color: var(--coral-text); }
 
 .summary-amount {
   font-size: 1.85rem;
   font-weight: 800;
+  color: #0f172a;
   letter-spacing: -0.5px;
+  line-height: 1.1;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.text-success { color: #047857; }
-.text-danger { color: #be123c; }
+.text-success { color: #059669 !important; }
+.text-danger { color: #e11d48 !important; }
 
-/* ==================== CONTENT LAYOUT ==================== */
+/* ==================== CONTENT LAYOUT (2 COLUMNS) ==================== */
 .content-layout {
   display: grid;
-  grid-template-columns: 390px 1fr;
+  grid-template-columns: 380px 1fr;
   gap: 32px;
   align-items: start;
 }
 
-/* ==================== CLAY FORM SECTION ==================== */
+/* ==================== CLAY 3D FORMULIR TRANSAKSI ==================== */
 .form-card {
-  padding: 30px;
+  padding: 32px 28px;
   position: sticky;
-  top: 110px;
+  top: 104px;
 }
 
 .card-header {
@@ -286,26 +296,39 @@ body {
 }
 
 .card-header h2 {
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   font-weight: 800;
   color: #1e1b4b;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-header h2 i {
+  color: var(--primary);
 }
 
 .badge-mode {
-  font-size: 0.78rem;
-  padding: 6px 12px;
-  border-radius: 9999px;
+  font-size: 0.75rem;
   font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 9999px;
   background: #e0e7ff;
   color: #4338ca;
-  box-shadow: var(--clay-shadow-sm);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .badge-mode.editing {
   background: #fef3c7;
-  color: #92400e;
-  border-color: #fde68a;
+  color: #b45309;
+  box-shadow: inset 1px 1px 3px rgba(180, 83, 9, 0.2);
+  animation: pulseMode 1.5s infinite;
+}
+
+@keyframes pulseMode {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
 }
 
 .form-group {
@@ -314,14 +337,38 @@ body {
 
 .form-group label {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  margin-bottom: 8px;
   color: #334155;
+  margin-bottom: 8px;
 }
 
 .required {
   color: #e11d48;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .input-icon {
+  position: absolute;
+  left: 16px;
+  font-size: 1rem;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.input-with-icon input {
+  padding-left: 46px !important;
+}
+
+.input-with-icon input:focus + .input-icon,
+.input-with-icon input:focus ~ .input-icon {
+  color: var(--primary);
 }
 
 /* Clay Inset Inputs */
@@ -330,14 +377,15 @@ input[type="number"],
 input[type="date"] {
   width: 100%;
   padding: 14px 18px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: 0.98rem;
-  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: #edf2f8;
   color: var(--text-main);
-  background: #f1f5f9;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
   box-shadow: var(--clay-shadow-inset);
+  outline: none;
   transition: all 0.2s ease;
 }
 
@@ -345,8 +393,7 @@ input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="date"]:focus {
   background: #ffffff;
-  outline: none;
-  border-color: var(--primary-clay);
+  border-color: #818cf8;
   box-shadow: inset 2px 2px 4px rgba(166, 180, 200, 0.2), 0 0 0 4px rgba(99, 102, 241, 0.18);
 }
 
@@ -373,6 +420,7 @@ input[type="date"]:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 14px;
   border-radius: var(--radius-sm);
   font-size: 0.92rem;
@@ -426,6 +474,10 @@ input[type="date"]:focus {
   font-weight: 800;
   cursor: pointer;
   box-shadow: var(--clay-shadow-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
   user-select: none;
 }
@@ -435,7 +487,6 @@ input[type="date"]:focus {
   box-shadow: 8px 8px 22px rgba(99, 102, 241, 0.45), -4px -4px 14px rgba(255, 255, 255, 0.9);
 }
 
-/* Membal / Squishy tactile feedback */
 .btn-primary:active {
   transform: translateY(2px) scale(0.97);
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.25), inset -3px -3px 6px rgba(255, 255, 255, 0.3);
@@ -452,6 +503,10 @@ input[type="date"]:focus {
   font-weight: 800;
   cursor: pointer;
   box-shadow: var(--clay-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: all 0.15s ease;
 }
 
@@ -481,7 +536,7 @@ input[type="date"]:focus {
 .search-icon {
   position: absolute;
   left: 20px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -529,6 +584,9 @@ input[type="date"]:focus {
   color: #4f46e5;
   font-weight: 700;
   padding-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ==================== LISTS SECTION ==================== */
@@ -557,6 +615,9 @@ input[type="date"]:focus {
 .list-header h2 {
   font-size: 1.15rem;
   font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .income-list-card .list-header h2 { color: #047857; }
@@ -634,7 +695,7 @@ p[data-testid="transactionItemType"] {
   font-weight: 800;
   margin-bottom: 14px;
   display: inline-block;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 9999px;
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.08);
 }
@@ -649,7 +710,7 @@ p[data-testid="transactionItemType"] {
   color: #9f1239;
 }
 
-/* Tactile Mini Clay Buttons */
+/* Tactile Mini Clay Buttons with Font Awesome Icons */
 div[data-testid="transactionItem"] > div:last-child {
   display: flex;
   gap: 10px;
@@ -659,21 +720,29 @@ div[data-testid="transactionItem"] > div:last-child {
 }
 
 button[data-testid="transactionItemEditButton"] {
-  padding: 8px 14px;
+  padding: 8px 15px;
   background: #e0e7ff;
   color: #4338ca;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
   box-shadow: var(--clay-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 button[data-testid="transactionItemEditButton"]:hover {
   background: #c7d2fe;
-  transform: translateY(-2px);
+  color: #312e81;
+  transform: translateY(-2px) scale(1.03);
+}
+
+button[data-testid="transactionItemEditButton"]:hover i {
+  transform: rotate(-10deg);
 }
 
 button[data-testid="transactionItemEditButton"]:active {
@@ -682,21 +751,30 @@ button[data-testid="transactionItemEditButton"]:active {
 }
 
 button[data-testid="transactionItemEditTypeButton"] {
-  padding: 8px 14px;
+  padding: 8px 15px;
   background: #ffffff;
   color: #334155;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
   box-shadow: var(--clay-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 button[data-testid="transactionItemEditTypeButton"]:hover {
   background: #f1f5f9;
-  transform: translateY(-2px);
+  color: #0f172a;
+  transform: translateY(-2px) scale(1.03);
+}
+
+button[data-testid="transactionItemEditTypeButton"]:hover i {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
 
 button[data-testid="transactionItemEditTypeButton"]:active {
@@ -704,22 +782,36 @@ button[data-testid="transactionItemEditTypeButton"]:active {
   box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+/* Transformed Delete Action Button (Eye-Catching Icon Button) */
 button[data-testid="transactionItemDeleteButton"] {
-  padding: 8px 14px;
+  padding: 8px 15px;
   background: #fee2e2;
   color: #be123c;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
   box-shadow: var(--clay-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 button[data-testid="transactionItemDeleteButton"]:hover {
   background: #fecdd3;
-  transform: translateY(-2px);
+  color: #9f1239;
+  transform: translateY(-2px) scale(1.03);
+}
+
+button[data-testid="transactionItemDeleteButton"]:hover i {
+  animation: trashBounce 0.4s ease infinite alternate;
+}
+
+@keyframes trashBounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-3px) scale(1.1); }
 }
 
 button[data-testid="transactionItemDeleteButton"]:active {
@@ -740,9 +832,10 @@ button[data-testid="transactionItemDeleteButton"]:active {
 }
 
 .empty-state-icon {
-  font-size: 3rem;
+  font-size: 2.8rem;
   margin-bottom: 12px;
   display: inline-block;
+  color: #94a3b8;
   animation: bounce 2s infinite alternate;
 }
 
@@ -787,6 +880,10 @@ button[data-testid="transactionItemDeleteButton"]:active {
 .toast.toast-warning { border-left-color: #f59e0b; }
 .toast.toast-danger { border-left-color: #f43f5e; }
 
+.toast-icon {
+  font-size: 1.2rem;
+}
+
 @keyframes toastSlideIn {
   from { opacity: 0; transform: translateY(30px) scale(0.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
@@ -795,6 +892,104 @@ button[data-testid="transactionItemDeleteButton"]:active {
 @keyframes toastSlideOut {
   from { opacity: 1; transform: translateY(0) scale(1); }
   to { opacity: 0; transform: translateY(-20px) scale(0.9); }
+}
+
+/* ==================== SWEETALERT2 CLAYMORPHISM 3D THEME OVERRIDES ==================== */
+div:where(.swal2-container).swal2-backdrop-show {
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.clay-swal-popup {
+  background: #f8fafc !important;
+  border-radius: var(--radius-lg) !important;
+  border: 3px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 20px 20px 50px rgba(15, 23, 42, 0.25), -12px -12px 30px rgba(255, 255, 255, 0.9), inset 3px 3px 6px rgba(255, 255, 255, 0.9) !important;
+  padding: 32px 28px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.clay-swal-title {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: #1e1b4b !important;
+  margin-top: 10px !important;
+}
+
+.clay-swal-text {
+  font-size: 0.96rem !important;
+  font-weight: 500 !important;
+  color: #475569 !important;
+  line-height: 1.6 !important;
+  margin-top: 8px !important;
+}
+
+.clay-swal-confirm-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: var(--clay-shadow-btn) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 6px !important;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.clay-swal-confirm-btn:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow: 6px 6px 18px rgba(99, 102, 241, 0.5) !important;
+}
+
+.clay-swal-danger-btn {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 24px !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: 6px 6px 16px rgba(225, 29, 72, 0.35), -4px -4px 12px rgba(255, 255, 255, 0.9) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 6px !important;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.clay-swal-danger-btn:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow: 6px 6px 18px rgba(225, 29, 72, 0.5) !important;
+}
+
+.clay-swal-cancel-btn {
+  background: #e2e8f0 !important;
+  color: #475569 !important;
+  border: 2px solid rgba(255, 255, 255, 0.9) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px 22px !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: var(--clay-shadow-sm) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.clay-swal-cancel-btn:hover {
+  background: #cbd5e1 !important;
+  color: #1e293b !important;
+  transform: translateY(-2px) !important;
 }
 
 /* ==================== RESPONSIVE DESIGN ==================== */
